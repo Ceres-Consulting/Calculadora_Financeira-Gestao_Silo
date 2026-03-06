@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora financeira</title>
+</head>
+
+<body>
+    <h2>Descubra o ganho que você pode ter se fizer uso da nossa tecnologia</h2>
+
+    <br><br>
+    <label>
+        Volume do seu silo em M³ (metro cúbico): 
+        <input placeholder="Digite o valor" type="text" id="volume_id">
+    </label>
+
+    <br><br>
+    <label>
+        PH (Peso Hectolítrico):
+        <input placeholder="Digite o peso" type="text" id="ph_id">
+    </label>
+
+    <br><br>
+    <label>
+        Preço atual da saca (R$):
+        <input placeholder="Digite o valor" type="text" id="preco_id">
+    </label>
+
+    <br><br>
+    <label>
+        Preço futuro da saca (R$):
+        <input placeholder="Digite o preço" type="text" id="preco_futuro_id">
+    </label>
+
+    <br><br>
+    <label>
+        Custo mensal da saca (R$):
+        <input placeholder="Digite o preço" type="text" id="custo_mes_id">
+    </label>
+
+    <br><br>
+    <label>
+        Quantidade de meses armazenado:
+        <input placeholder="Digite a quantidade" type="text" id="meses_id">
+    </label>
+
+    <br><br>
+    <button onclick="calcular()">Calcular</button>
+
+    <p id="id"></p>
+</body>
+
+</html>
+
+<script>
+    function calcular() {
+
+        let volume = Number(volume_id.value)
+        let preco = Number(preco_id.value)
+        let ph = Number(ph_id.value)
+        let preco_futuro = Number(preco_futuro_id.value)
+        let custo_mes = Number(custo_mes_id.value)
+        let meses = Number(meses_id.value)
+        let volume_total = (ph * 10) * volume
+        let sacas = (volume_total / 60)
+        sacas = Number(sacas.toFixed(0))
+        let valor_atual = sacas * preco
+        let perda_total = valor_atual * 0.2
+        let perda_saca = perda_total / sacas
+        let valor_futuro = sacas * preco_futuro
+        let custo_total = sacas * custo_mes * meses
+        let resultado = valor_futuro - valor_atual - custo_total
+
+        id.innerHTML = `Você tem um total de ${sacas} sacas`
+        id.innerHTML += `<br>Valor se vender hoje: R$${valor_atual.toFixed(2)}`
+        id.innerHTML += `<br>Perda estimada sem monitoramento: R$${perda_total.toFixed(2)}`
+        id.innerHTML += `<br>Perda por saca: R$${perda_saca.toFixed(2)}`
+        id.innerHTML += `<br>Valor bruto se vender no futuro: R$${valor_futuro.toFixed(2)}`
+        id.innerHTML += `<br>Custo total de armazenagem: R$${custo_total.toFixed(2)}`
+
+        if (resultado > 0) {
+            id.innerHTML += `<br>Lucro ao esperar: R$${resultado.toFixed(2)}`
+        }
+        else if (resultado == 0) {
+            id.innerHTML += `<br>Não terá lucro nem prejuízo`
+        }
+        else {
+            id.innerHTML += `<br>Prejuízo ao esperar: R$${resultado.toFixed(2)}`
+        }
+    }
+
+</script>
