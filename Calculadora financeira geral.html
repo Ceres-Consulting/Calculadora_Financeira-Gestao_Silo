@@ -61,15 +61,23 @@
 
         let valor_futuro = sacas * preco_futuro;
         let custo_total_armazenagem = sacas * custo_mes * meses;
-        let resultado_final = valor_futuro - valor_atual - custo_total_armazenagem;
-        let custo_referencia_fgv = (toneladas * 700) * (meses / 12);
+        let resultado_final_manual = valor_futuro - valor_atual - custo_total_armazenagem - ((perda_financeira_manual) + (risco_emergencial));
+        let resultado_final_tecnologia = valor_futuro - valor_atual - custo_total_armazenagem - ((risco_emergencial + perda_financeira_manual)*0.02);
         let reducao_gasto = (risco_emergencial + perda_financeira_manual)*0.98;
+        let custo_referencia_fgv = (toneladas * 700) * (meses / 12);
 
-        let color = "";
-        if (resultado_final > 0) {
-            color = "green";
+        let color_manual = "";
+        if (resultado_final_manual > 0) {
+            color_manual = "green";
         } else {
-            color = "red";
+            color_manual = "red";
+        }
+
+        let color_tecnologia = "";
+        if (resultado_final_tecnologia > 0) {
+            color_tecnologia = "green";
+        } else {
+            color_tecnologia = "red";
         }
         
         // Seleciona a div de exibição e a torna visível
@@ -99,8 +107,12 @@
                 <b>Análise de Lucratividade:</b><br>
                 Valor Bruto no Futuro: R$ ${valor_futuro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}<br>
                 Custo de Armazenagem: R$ ${custo_total_armazenagem.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}<br>
-                Lucro Líquido da Operação: <span style="color: ${color}; font-weight: bold;">
-                    R$ ${resultado_final.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                Lucro Líquido da Operação <b>Manual</b>: <span style="color: ${color_manual}; font-weight: bold;">
+                    R$ ${resultado_final_manual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </span><br>
+                Lucro Líquido da Operação <b>Tecnológica</b>: <span style="color: ${color_tecnologia}; font-weight: bold;">
+                    R$ ${resultado_final_tecnologia.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </span>
             </div>
 
             <div style="font-size: 0.8em; color: #666;">
